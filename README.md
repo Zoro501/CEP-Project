@@ -1,7 +1,7 @@
 # CEP-Project 
 CurASync – AI-Based Symptom Checker & Doctor Appointment System
-📌 Overview
 
+📌 Overview
 CurASync is a mobile/web-based healthcare platform that helps patients easily access medical services. It uses AI/ML for symptom analysis, recommends doctors, shows nearby hospitals, and enables online appointment booking with real-time updates.
 
 🚀 Features
