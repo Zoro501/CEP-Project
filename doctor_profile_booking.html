@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dr. Sarah Johnson - CurASync</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcurasync9054back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-medical-sm border-b border-secondary-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo & Back Button -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="history.back()" class="lg:hidden p-2 text-secondary-600 hover:text-primary transition-medical">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <a href="patient_dashboard.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-semibold text-text-primary hidden sm:block">CurASync</span>
+                    </a>
+                </div>
+                
+                <!-- Header Actions -->
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 text-secondary-600 hover:text-primary transition-medical" data-tooltip="Share Profile">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    <button id="favoriteBtn" class="p-2 text-secondary-600 hover:text-error transition-medical" data-tooltip="Add to Favorites">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="hidden sm:flex items-center space-x-4">
+                        <a href="appointment_management.html" class="text-sm text-secondary-600 hover:text-primary transition-medical">My Appointments</a>
+                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-primary text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+            <!-- Left Content Panel -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Doctor Hero Section -->
+                <section class="medical-card p-6 fade-in">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Sarah Johnson" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-primary-100" onerror="this.src='https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                            <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-accent rounded-full flex items-center justify-center border-2 border-white">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <h1 class="text-2xl sm:text-3xl font-semibold text-text-primary">Dr. Sarah Johnson</h1>
+                                    <p class="text-lg text-primary font-medium">Cardiologist</p>
+                                    <div class="flex items-center space-x-4 mt-2">
+                                        <div class="flex items-center space-x-1">
+                                            <div class="flex text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <span class="text-sm text-text-secondary ml-1">4.9 (127 reviews)</span>
+                                        </div>
+                                        <span class="text-sm text-text-secondary">15 years experience</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 sm:mt-0">
+                                    <button id="bookAppointmentBtn" class="btn-primary px-6 py-3 text-lg hover-lift">
+                                        <i class="fas fa-calendar-plus mr-2"></i>
+                                        Book Appointment
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Stats -->
+                            <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-secondary-200">
+                                <div class="text-center">
+                                    <div class="text-2xl font-semibold text-primary">2,500+</div>
+                                    <div class="text-sm text-text-secondary">Patients Treated</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-semibold text-accent">98%</div>
+                                    <div class="text-sm text-text-secondary">Success Rate</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-semibold text-warning">24h</div>
+                                    <div class="text-sm text-text-secondary">Response Time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <button class="w-full flex items-center justify-between text-left" onclick="toggleSection('about')">
+                            <h2 class="text-xl font-semibold text-text-primary">About Dr. Johnson</h2>
+                            <i id="aboutIcon" class="fas fa-chevron-down text-secondary-400 transition-medical"></i>
+                        </button>
+                        <div id="aboutContent" class="mt-4 space-y-4">
+                            <p class="text-text-secondary leading-relaxed">
+                                Dr. Sarah Johnson is a board-certified cardiologist with over 15 years of experience in cardiovascular medicine. She specializes in preventive cardiology, heart failure management, and interventional procedures. Dr. Johnson is committed to providing personalized, compassionate care to help her patients achieve optimal heart health.
+                            </p>
+                            <p class="text-text-secondary leading-relaxed">
+                                She completed her medical degree at Harvard Medical School and her cardiology fellowship at Johns Hopkins Hospital. Dr. Johnson is actively involved in cardiovascular research and has published numerous papers in peer-reviewed journals.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education & Certifications -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <button class="w-full flex items-center justify-between text-left" onclick="toggleSection('education')">
+                            <h2 class="text-xl font-semibold text-text-primary">Education & Certifications</h2>
+                            <i id="educationIcon" class="fas fa-chevron-down text-secondary-400 transition-medical"></i>
+                        </button>
+                        <div id="educationContent" class="mt-4 space-y-4 hidden">
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                                    <div>
+                                        <h3 class="font-medium text-text-primary">Harvard Medical School</h3>
+                                        <p class="text-sm text-text-secondary">Doctor of Medicine (M.D.) • 2005-2009</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                                    <div>
+                                        <h3 class="font-medium text-text-primary">Johns Hopkins Hospital</h3>
+                                        <p class="text-sm text-text-secondary">Cardiology Fellowship • 2012-2015</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-2 h-2 bg-accent rounded-full mt-2"></div>
+                                    <div>
+                                        <h3 class="font-medium text-text-primary">Board Certified</h3>
+                                        <p class="text-sm text-text-secondary">American Board of Internal Medicine - Cardiovascular Disease</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Specializations -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <button class="w-full flex items-center justify-between text-left" onclick="toggleSection('specializations')">
+                            <h2 class="text-xl font-semibold text-text-primary">Specializations</h2>
+                            <i id="specializationsIcon" class="fas fa-chevron-down text-secondary-400 transition-medical"></i>
+                        </button>
+                        <div id="specializationsContent" class="mt-4 hidden">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="flex items-center space-x-2 p-3 bg-primary-50 rounded-medical">
+                                    <i class="fas fa-heart text-primary"></i>
+                                    <span class="text-sm font-medium text-text-primary">Preventive Cardiology</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-accent-50 rounded-medical">
+                                    <i class="fas fa-heartbeat text-accent"></i>
+                                    <span class="text-sm font-medium text-text-primary">Heart Failure</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-warning-50 rounded-medical">
+                                    <i class="fas fa-stethoscope text-warning"></i>
+                                    <span class="text-sm font-medium text-text-primary">Interventional Cardiology</span>
+                                </div>
+                                <div class="flex items-center space-x-2 p-3 bg-secondary-100 rounded-medical">
+                                    <i class="fas fa-user-md text-secondary-600"></i>
+                                    <span class="text-sm font-medium text-text-primary">Cardiac Rehabilitation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Insurance Accepted -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <button class="w-full flex items-center justify-between text-left" onclick="toggleSection('insurance')">
+                            <h2 class="text-xl font-semibold text-text-primary">Insurance Accepted</h2>
+                            <i id="insuranceIcon" class="fas fa-chevron-down text-secondary-400 transition-medical"></i>
+                        </button>
+                        <div id="insuranceContent" class="mt-4 hidden">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">Blue Cross</div>
+                                </div>
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">Aetna</div>
+                                </div>
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">Cigna</div>
+                                </div>
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">UnitedHealth</div>
+                                </div>
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">Medicare</div>
+                                </div>
+                                <div class="text-center p-3 border border-secondary-200 rounded-medical">
+                                    <div class="text-sm font-medium text-text-primary">Medicaid</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Patient Reviews -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <button class="w-full flex items-center justify-between text-left" onclick="toggleSection('reviews')">
+                            <h2 class="text-xl font-semibold text-text-primary">Patient Reviews (127)</h2>
+                            <i id="reviewsIcon" class="fas fa-chevron-down text-secondary-400 transition-medical"></i>
+                        </button>
+                        <div id="reviewsContent" class="mt-4 space-y-4 hidden">
+                            <!-- Review Item -->
+                            <div class="border-b border-secondary-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-primary">MR</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-text-primary">Michael Rodriguez</h4>
+                                            <span class="text-sm text-text-secondary">2 days ago</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1 mt-1">
+                                            <div class="flex text-warning text-sm">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-text-secondary mt-2 text-sm">
+                                            Dr. Johnson is exceptional! She took the time to explain my condition thoroughly and made me feel comfortable throughout the entire process. Highly recommend!
+                                        </p>
+                                        <div class="flex items-center space-x-4 mt-3">
+                                            <button class="text-xs text-secondary-600 hover:text-primary transition-medical">
+                                                <i class="fas fa-thumbs-up mr-1"></i>Helpful (12)
+                                            </button>
+                                            <button class="text-xs text-secondary-600 hover:text-primary transition-medical">
+                                                <i class="fas fa-thumbs-down mr-1"></i>Not Helpful (0)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Review Item -->
+                            <div class="border-b border-secondary-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-accent">LC</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="font-medium text-text-primary">Lisa Chen</h4>
+                                            <span class="text-sm text-text-secondary">1 week ago</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1 mt-1">
+                                            <div class="flex text-warning text-sm">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-text-secondary mt-2 text-sm">
+                                            Professional, knowledgeable, and caring. Dr. Johnson helped me understand my heart condition and provided excellent treatment options.
+                                        </p>
+                                        <div class="flex items-center space-x-4 mt-3">
+                                            <button class="text-xs text-secondary-600 hover:text-primary transition-medical">
+                                                <i class="fas fa-thumbs-up mr-1"></i>Helpful (8)
+                                            </button>
+                                            <button class="text-xs text-secondary-600 hover:text-primary transition-medical">
+                                                <i class="fas fa-thumbs-down mr-1"></i>Not Helpful (0)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="text-primary hover:text-primary-700 text-sm font-medium transition-medical">
+                                View All Reviews <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Office Photos -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-text-primary mb-4">Office & Facility</h2>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="aspect-square rounded-medical overflow-hidden">
+                                <img src="https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Office Reception" class="w-full h-full object-cover hover:scale-105 transition-medical cursor-pointer" onerror="this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            </div>
+                            <div class="aspect-square rounded-medical overflow-hidden">
+                                <img src="https://images.pixabay.com/photo/2017/10/04/09/56/laboratory-2815641_1280.jpg" alt="Examination Room" class="w-full h-full object-cover hover:scale-105 transition-medical cursor-pointer" onerror="this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            </div>
+                            <div class="aspect-square rounded-medical overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Waiting Area" class="w-full h-full object-cover hover:scale-105 transition-medical cursor-pointer" onerror="this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Information -->
+                <section class="medical-card slide-in">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-text-primary mb-4">Contact Information</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-phone text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-text-primary">(555) 123-4567</p>
+                                    <p class="text-sm text-text-secondary">Office Phone</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-envelope text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-text-primary">dr.johnson@heartcare.com</p>
+                                    <p class="text-sm text-text-secondary">Email Address</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-warning-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-warning"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-text-primary">Heart Care Medical Center</p>
+                                    <p class="text-sm text-text-secondary">123 Medical Plaza, Suite 400<br />New York, NY 10001</p>
+                                    <button class="text-primary hover:text-primary-700 text-sm font-medium mt-1 transition-medical">
+                                        <i class="fas fa-directions mr-1"></i>Get Directions
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Sidebar - Booking Widget -->
+            <div class="lg:col-span-1 mt-6 lg:mt-0">
+                <div class="sticky top-24 space-y-6">
+                    <!-- Quick Booking Card -->
+                    <div class="medical-card p-6 fade-in">
+                        <h3 class="text-lg font-semibold text-text-primary mb-4">Book Appointment</h3>
+                        
+                        <!-- Calendar Widget -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-medium text-text-primary">August 2025</h4>
+                                <div class="flex space-x-2">
+                                    <button class="p-1 text-secondary-600 hover:text-primary transition-medical">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="p-1 text-secondary-600 hover:text-primary transition-medical">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Calendar Grid -->
+                            <div class="grid grid-cols-7 gap-1 text-center text-sm">
+                                <div class="p-2 text-text-secondary font-medium">Sun</div>
+                                <div class="p-2 text-text-secondary font-medium">Mon</div>
+                                <div class="p-2 text-text-secondary font-medium">Tue</div>
+                                <div class="p-2 text-text-secondary font-medium">Wed</div>
+                                <div class="p-2 text-text-secondary font-medium">Thu</div>
+                                <div class="p-2 text-text-secondary font-medium">Fri</div>
+                                <div class="p-2 text-text-secondary font-medium">Sat</div>
+                                
+                                <!-- Calendar Days -->
+                                <div class="p-2 text-secondary-400">28</div>
+                                <div class="p-2 text-secondary-400">29</div>
+                                <div class="p-2 text-secondary-400">30</div>
+                                <div class="p-2 text-secondary-400">31</div>
+                                <div class="p-2 text-text-primary">1</div>
+                                <div class="p-2 text-text-primary">2</div>
+                                <div class="p-2 text-text-primary">3</div>
+                                
+                                <div class="p-2 text-text-primary">4</div>
+                                <div class="p-2 text-text-primary">5</div>
+                                <div class="p-2 text-text-primary">6</div>
+                                <div class="p-2 text-text-primary">7</div>
+                                <div class="p-2 text-text-primary">8</div>
+                                <div class="p-2 text-text-primary">9</div>
+                                <div class="p-2 text-text-primary">10</div>
+                                
+                                <div class="p-2 text-text-primary">11</div>
+                                <div class="p-2 text-text-primary">12</div>
+                                <div class="p-2 text-text-primary">13</div>
+                                <div class="p-2 text-text-primary">14</div>
+                                <div class="p-2 text-text-primary">15</div>
+                                <div class="p-2 text-text-primary">16</div>
+                                <div class="p-2 text-text-primary">17</div>
+                                
+                                <div class="p-2 bg-primary text-white rounded-medical cursor-pointer hover-lift">18</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">19</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">20</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">21</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">22</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">23</div>
+                                <div class="p-2 text-text-primary cursor-pointer hover:bg-primary-50 rounded-medical transition-medical">24</div>
+                            </div>
+                        </div>
+
+                        <!-- Available Time Slots -->
+                        <div class="mb-6">
+                            <h4 class="font-medium text-text-primary mb-3">Available Times - Aug 18</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button class="p-2 text-sm border border-primary text-primary rounded-medical hover:bg-primary hover:text-white transition-medical">
+                                    9:00 AM
+                                </button>
+                                <button class="p-2 text-sm border border-secondary-200 text-text-primary rounded-medical hover:bg-primary hover:text-white hover:border-primary transition-medical">
+                                    10:30 AM
+                                </button>
+                                <button class="p-2 text-sm border border-secondary-200 text-text-primary rounded-medical hover:bg-primary hover:text-white hover:border-primary transition-medical">
+                                    2:00 PM
+                                </button>
+                                <button class="p-2 text-sm border border-secondary-200 text-text-primary rounded-medical hover:bg-primary hover:text-white hover:border-primary transition-medical">
+                                    3:30 PM
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Appointment Type -->
+                        <div class="mb-6">
+                            <h4 class="font-medium text-text-primary mb-3">Appointment Type</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="appointmentType" value="consultation" class="text-primary focus:ring-primary" checked />
+                                    <span class="text-sm text-text-primary">Consultation ($150)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="appointmentType" value="followup" class="text-primary focus:ring-primary" />
+                                    <span class="text-sm text-text-primary">Follow-up ($100)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="radio" name="appointmentType" value="emergency" class="text-primary focus:ring-primary" />
+                                    <span class="text-sm text-text-primary">Emergency ($200)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="confirmBookingBtn" class="btn-primary w-full hover-lift">
+                            <i class="fas fa-calendar-check mr-2"></i>
+                            Confirm Booking
+                        </button>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="medical-card p-6">
+                        <h3 class="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-secondary-50 rounded-medical transition-medical">
+                                <i class="fas fa-video text-primary"></i>
+                                <span class="text-sm text-text-primary">Video Consultation</span>
+                            </button>
+                            <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-secondary-50 rounded-medical transition-medical">
+                                <i class="fas fa-comments text-accent"></i>
+                                <span class="text-sm text-text-primary">Send Message</span>
+                            </button>
+                            <button class="w-full flex items-center space-x-3 p-3 text-left hover:bg-secondary-50 rounded-medical transition-medical">
+                                <i class="fas fa-file-medical text-warning"></i>
+                                <span class="text-sm text-text-primary">View Records</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-modal">
+        <div class="medical-card max-w-md w-full p-6 max-h-screen overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-text-primary">Book Appointment</h3>
+                <button onclick="closeBookingModal()" class="text-secondary-600 hover:text-text-primary transition-medical">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form id="bookingForm" class="space-y-6">
+                <!-- Selected Date & Time -->
+                <div class="bg-primary-50 p-4 rounded-medical">
+                    <h4 class="font-medium text-text-primary mb-2">Appointment Details</h4>
+                    <p class="text-sm text-text-secondary">
+                        <i class="fas fa-calendar mr-2"></i>Sunday, August 18, 2025
+                    </p>
+                    <p class="text-sm text-text-secondary">
+                        <i class="fas fa-clock mr-2"></i>9:00 AM - 9:30 AM
+                    </p>
+                    <p class="text-sm text-text-secondary">
+                        <i class="fas fa-user-md mr-2"></i>Dr. Sarah Johnson - Cardiologist
+                    </p>
+                </div>
+
+                <!-- Reason for Visit -->
+                <div>
+                    <label for="visitReason" class="block text-sm font-medium text-text-primary mb-2">Reason for Visit</label>
+                    <textarea id="visitReason" name="visitReason" rows="3" class="form-input w-full focus-medical" placeholder="Please describe your symptoms or reason for the appointment..." required></textarea>
+                </div>
+
+                <!-- Patient Information -->
+                <div class="space-y-4">
+                    <h4 class="font-medium text-text-primary">Patient Information</h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label for="patientName" class="block text-sm font-medium text-text-primary mb-2">Full Name</label>
+                            <input type="text" id="patientName" name="patientName" class="form-input w-full focus-medical" value="John Doe" required />
+                        </div>
+                        <div>
+                            <label for="patientPhone" class="block text-sm font-medium text-text-primary mb-2">Phone Number</label>
+                            <input type="tel" id="patientPhone" name="patientPhone" class="form-input w-full focus-medical" value="(555) 123-4567" required />
+                        </div>
+                        <div>
+                            <label for="patientEmail" class="block text-sm font-medium text-text-primary mb-2">Email Address</label>
+                            <input type="email" id="patientEmail" name="patientEmail" class="form-input w-full focus-medical" value="john.doe@email.com" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insurance Information -->
+                <div>
+                    <label for="insurance" class="block text-sm font-medium text-text-primary mb-2">Insurance Provider</label>
+                    <select id="insurance" name="insurance" class="form-input w-full focus-medical">
+                        <option value>Select Insurance</option>
+                        <option value="blue-cross">Blue Cross Blue Shield</option>
+                        <option value="aetna">Aetna</option>
+                        <option value="cigna">Cigna</option>
+                        <option value="united">UnitedHealth</option>
+                        <option value="medicare">Medicare</option>
+                        <option value="self-pay">Self Pay</option>
+                    </select>
+                </div>
+
+                <!-- Terms Agreement -->
+                <div class="flex items-start space-x-2">
+                    <input id="agreeTerms" name="agreeTerms" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-secondary-300 rounded mt-1" required />
+                    <label for="agreeTerms" class="text-sm text-text-secondary">
+                        I agree to the <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Terms of Service</a> and <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex space-x-3">
+                    <button type="button" onclick="closeBookingModal()" class="btn-secondary flex-1">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary flex-1">
+                        <i class="fas fa-check mr-2"></i>
+                        Confirm Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-modal">
+        <div class="medical-card max-w-sm w-full p-6 text-center">
+            <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-accent text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-text-primary mb-2">Appointment Confirmed!</h3>
+            <p class="text-text-secondary text-sm mb-6">
+                Your appointment with Dr. Sarah Johnson has been successfully booked for August 18, 2025 at 9:00 AM.
+            </p>
+            <div class="space-y-3">
+                <button onclick="closeSuccessModal()" class="btn-primary w-full">
+                    <i class="fas fa-calendar mr-2"></i>
+                    View My Appointments
+                </button>
+                <button onclick="closeSuccessModal()" class="text-text-secondary text-sm hover:text-primary transition-medical">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-secondary-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-sm text-text-secondary">
+                <p>&copy; 2025 CurASync. All rights reserved. | <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Privacy Policy</a> | <a href="javascript:void(0)" class="text-primary hover:text-primary-700">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle collapsible sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + 'Content');
+            const icon = document.getElementById(sectionId + 'Icon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // Favorite toggle
+        document.getElementById('favoriteBtn').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                this.classList.add('text-error');
+                this.setAttribute('data-tooltip', 'Remove from Favorites');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                this.classList.remove('text-error');
+                this.setAttribute('data-tooltip', 'Add to Favorites');
+            }
+        });
+
+        // Booking modal functions
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openSuccessModal() {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            // Redirect to appointments page
+            window.location.href = 'appointment_management.html';
+        }
+
+        // Book appointment button handlers
+        document.getElementById('bookAppointmentBtn').addEventListener('click', openBookingModal);
+        document.getElementById('confirmBookingBtn').addEventListener('click', openBookingModal);
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate booking process
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Booking...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                closeBookingModal();
+                openSuccessModal();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Calendar date selection
+        document.querySelectorAll('.grid .p-2').forEach(day => {
+            if (day.textContent && !day.classList.contains('text-secondary-400')) {
+                day.addEventListener('click', function() {
+                    // Remove previous selection
+                    document.querySelectorAll('.bg-primary').forEach(el => {
+                        el.classList.remove('bg-primary', 'text-white');
+                        el.classList.add('text-text-primary');
+                    });
+                    
+                    // Add selection to clicked day
+                    this.classList.add('bg-primary', 'text-white');
+                    this.classList.remove('text-text-primary');
+                });
+            }
+        });
+
+        // Time slot selection
+        document.querySelectorAll('[class*="border-secondary-200"]').forEach(slot => {
+            slot.addEventListener('click', function() {
+                // Remove previous selection
+                document.querySelectorAll('[class*="border-primary"]').forEach(el => {
+                    el.classList.remove('border-primary', 'text-primary');
+                    el.classList.add('border-secondary-200', 'text-text-primary');
+                });
+                
+                // Add selection to clicked slot
+                this.classList.remove('border-secondary-200', 'text-text-primary');
+                this.classList.add('border-primary', 'text-primary');
+            });
+        });
+
+        // Real-time availability updates (simulated)
+        setInterval(() => {
+            // Simulate real-time updates
+            const slots = document.querySelectorAll('.grid.grid-cols-2 button');
+            if (Math.random() > 0.95) {
+                const randomSlot = slots[Math.floor(Math.random() * slots.length)];
+                if (!randomSlot.classList.contains('border-primary')) {
+                    randomSlot.style.opacity = '0.5';
+                    randomSlot.disabled = true;
+                    setTimeout(() => {
+                        randomSlot.style.opacity = '1';
+                        randomSlot.disabled = false;
+                    }, 3000);
+                }
+            }
+        }, 10000);
+
+        // Initialize tooltips
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                // Tooltip functionality handled by CSS
+            });
+        });
+
+        // Smooth scroll for mobile
+        if (window.innerWidth < 1024) {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointment Management - CurASync</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcurasync9054back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-medical-sm border-b border-secondary-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="patient_dashboard.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-semibold text-text-primary">CurASync</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="patient_dashboard.html" class="text-text-secondary hover:text-primary transition-medical">Dashboard</a>
+                    <a href="ai_symptom_analysis.html" class="text-text-secondary hover:text-primary transition-medical">Symptom Analysis</a>
+                    <a href="doctor_discovery_search.html" class="text-text-secondary hover:text-primary transition-medical">Find Doctors</a>
+                    <a href="appointment_management.html" class="text-primary font-medium">Appointments</a>
+                </nav>
+                
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2 text-secondary-400 hover:text-primary transition-medical">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs rounded-full flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <!-- Profile Dropdown -->
+                    <div class="relative">
+                        <button id="profileDropdown" class="flex items-center space-x-2 p-2 rounded-medical hover:bg-secondary-100 transition-medical">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Profile" class="w-8 h-8 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <span class="hidden md:block text-text-primary font-medium">John Doe</span>
+                            <i class="fas fa-chevron-down text-xs text-secondary-400"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-medical shadow-medical-lg border border-secondary-200 hidden">
+                            <div class="py-1">
+                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-text-primary hover:bg-secondary-100 transition-medical">Profile Settings</a>
+                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-text-primary hover:bg-secondary-100 transition-medical">Medical History</a>
+                                <a href="javascript:void(0)" class="block px-4 py-2 text-sm text-text-primary hover:bg-secondary-100 transition-medical">Preferences</a>
+                                <div class="border-t border-secondary-200"></div>
+                                <a href="user_registration_login.html" class="block px-4 py-2 text-sm text-error hover:bg-error-50 transition-medical">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="bg-white border-b border-secondary-200 sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8">
+                <button id="upcomingTab" class="py-4 px-1 border-b-2 border-primary text-primary font-medium text-sm">
+                    Upcoming (4)
+                </button>
+                <button id="pastTab" class="py-4 px-1 border-b-2 border-transparent text-text-secondary hover:text-primary font-medium text-sm transition-medical">
+                    Past (12)
+                </button>
+                <button id="cancelledTab" class="py-4 px-1 border-b-2 border-transparent text-text-secondary hover:text-primary font-medium text-sm transition-medical">
+                    Cancelled (2)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Search and Filter Bar -->
+        <div class="mb-6">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <!-- Search -->
+                <div class="flex-1 relative">
+                    <input type="text" placeholder="Search appointments by doctor, date, or type..." class="form-input w-full pl-10 focus-medical" />
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-400"></i>
+                </div>
+                
+                <!-- Filter Buttons -->
+                <div class="flex gap-2">
+                    <button class="btn-secondary flex items-center space-x-2">
+                        <i class="fas fa-filter"></i>
+                        <span>Filter</span>
+                    </button>
+                    <button class="btn-secondary flex items-center space-x-2">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Date Range</span>
+                    </button>
+                    <button class="btn-secondary flex items-center space-x-2">
+                        <i class="fas fa-sort"></i>
+                        <span>Sort</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mb-6 flex flex-wrap gap-3">
+            <button class="btn-primary flex items-center space-x-2">
+                <i class="fas fa-plus"></i>
+                <span>Book New Appointment</span>
+            </button>
+            <button class="btn-secondary flex items-center space-x-2">
+                <i class="fas fa-calendar-plus"></i>
+                <span>Add to Calendar</span>
+            </button>
+            <button class="btn-secondary flex items-center space-x-2">
+                <i class="fas fa-phone"></i>
+                <span>Emergency Contact</span>
+            </button>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div id="upcomingContent" class="space-y-4">
+            <!-- Next Appointment Alert -->
+            <div class="medical-card p-4 border-l-4 border-accent bg-accent-50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                            <i class="fas fa-clock text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-text-primary">Next Appointment in 2 hours</h3>
+                            <p class="text-sm text-text-secondary">Dr. Sarah Wilson - Cardiology Consultation</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary text-sm">
+                        <i class="fas fa-directions mr-1"></i>
+                        Get Directions
+                    </button>
+                </div>
+            </div>
+
+            <!-- Appointment Card 1 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="1">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Sarah Wilson" class="w-16 h-16 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary">Dr. Sarah Wilson</h3>
+                                <span class="px-2 py-1 bg-accent-100 text-accent text-xs rounded-full font-medium">Confirmed</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-stethoscope w-4 mr-2"></i>
+                                    <span>Cardiology Consultation</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>Today, August 18, 2025 at 2:30 PM</span>
+                                    <span class="ml-2 px-2 py-1 bg-warning-100 text-warning text-xs rounded-full">In 2 hours</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>St. Mary's Hospital, Room 205</span>
+                                    <button class="ml-2 text-primary hover:text-primary-700 text-xs">View Map</button>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-clock w-4 mr-2"></i>
+                                    <span>Duration: 30 minutes</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Preparation Instructions -->
+                            <div class="mt-3 p-3 bg-secondary-50 rounded-medical">
+                                <h4 class="text-sm font-medium text-text-primary mb-1">Preparation Instructions:</h4>
+                                <p class="text-sm text-text-secondary">Please bring your insurance card, previous test results, and arrive 15 minutes early for check-in.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-directions"></i>
+                            <span>Get Directions</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Add to Calendar</span>
+                        </button>
+                        <div class="flex space-x-2">
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1">
+                                <i class="fas fa-edit"></i>
+                                <span>Reschedule</span>
+                            </button>
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1 text-error hover:bg-error-50">
+                                <i class="fas fa-times"></i>
+                                <span>Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Card 2 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="2">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Michael Chen" class="w-16 h-16 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary">Dr. Michael Chen</h3>
+                                <span class="px-2 py-1 bg-warning-100 text-warning text-xs rounded-full font-medium">Pending</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-eye w-4 mr-2"></i>
+                                    <span>Ophthalmology Check-up</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>Tomorrow, August 19, 2025 at 10:00 AM</span>
+                                    <span class="ml-2 px-2 py-1 bg-secondary-100 text-secondary-600 text-xs rounded-full">In 1 day</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>Vision Care Center, Suite 301</span>
+                                    <button class="ml-2 text-primary hover:text-primary-700 text-xs">View Map</button>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-clock w-4 mr-2"></i>
+                                    <span>Duration: 45 minutes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-directions"></i>
+                            <span>Get Directions</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Add to Calendar</span>
+                        </button>
+                        <div class="flex space-x-2">
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1">
+                                <i class="fas fa-edit"></i>
+                                <span>Reschedule</span>
+                            </button>
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1 text-error hover:bg-error-50">
+                                <i class="fas fa-times"></i>
+                                <span>Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Card 3 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="3">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Emily Rodriguez" class="w-16 h-16 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary">Dr. Emily Rodriguez</h3>
+                                <span class="px-2 py-1 bg-accent-100 text-accent text-xs rounded-full font-medium">Confirmed</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-user-md w-4 mr-2"></i>
+                                    <span>Dermatology Consultation</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>August 22, 2025 at 3:15 PM</span>
+                                    <span class="ml-2 px-2 py-1 bg-secondary-100 text-secondary-600 text-xs rounded-full">In 4 days</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>Skin Health Clinic, Floor 2</span>
+                                    <button class="ml-2 text-primary hover:text-primary-700 text-xs">View Map</button>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-clock w-4 mr-2"></i>
+                                    <span>Duration: 20 minutes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-directions"></i>
+                            <span>Get Directions</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Add to Calendar</span>
+                        </button>
+                        <div class="flex space-x-2">
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1">
+                                <i class="fas fa-edit"></i>
+                                <span>Reschedule</span>
+                            </button>
+                            <button class="btn-secondary text-sm flex-1 flex items-center justify-center space-x-1 text-error hover:bg-error-50">
+                                <i class="fas fa-times"></i>
+                                <span>Cancel</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Appointments -->
+        <div id="pastContent" class="space-y-4 hidden">
+            <!-- Past Appointment Card 1 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="4">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. James Thompson" class="w-16 h-16 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary">Dr. James Thompson</h3>
+                                <span class="px-2 py-1 bg-success-100 text-success text-xs rounded-full font-medium">Completed</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-stethoscope w-4 mr-2"></i>
+                                    <span>General Check-up</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>August 10, 2025 at 11:00 AM</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>City Medical Center, Room 102</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Summary Notes -->
+                            <div class="mt-3 p-3 bg-success-50 rounded-medical">
+                                <h4 class="text-sm font-medium text-text-primary mb-1">Visit Summary:</h4>
+                                <p class="text-sm text-text-secondary mb-2">Routine check-up completed. Blood pressure and vitals normal. Recommended annual follow-up.</p>
+                                <div class="flex items-center space-x-4 text-xs text-text-secondary">
+                                    <span><i class="fas fa-pills mr-1"></i>No new prescriptions</span>
+                                    <span><i class="fas fa-calendar-check mr-1"></i>Next visit: August 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-file-medical"></i>
+                            <span>View Report</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-redo"></i>
+                            <span>Book Follow-up</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download Records</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Appointment Card 2 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Lisa Park" class="w-16 h-16 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary">Dr. Lisa Park</h3>
+                                <span class="px-2 py-1 bg-success-100 text-success text-xs rounded-full font-medium">Completed</span>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-brain w-4 mr-2"></i>
+                                    <span>Neurology Consultation</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>July 28, 2025 at 2:00 PM</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>Neurological Institute, Suite 405</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Summary Notes -->
+                            <div class="mt-3 p-3 bg-success-50 rounded-medical">
+                                <h4 class="text-sm font-medium text-text-primary mb-1">Visit Summary:</h4>
+                                <p class="text-sm text-text-secondary mb-2">Headache evaluation completed. MRI results normal. Prescribed migraine medication.</p>
+                                <div class="flex items-center space-x-4 text-xs text-text-secondary">
+                                    <span><i class="fas fa-pills mr-1"></i>2 prescriptions</span>
+                                    <span><i class="fas fa-calendar-check mr-1"></i>Follow-up in 3 months</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-file-medical"></i>
+                            <span>View Report</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-redo"></i>
+                            <span>Book Follow-up</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Download Records</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancelled Appointments -->
+        <div id="cancelledContent" class="space-y-4 hidden">
+            <!-- Cancelled Appointment Card 1 -->
+            <div class="medical-card p-6 hover-lift transition-medical appointment-card" data-appointment-id="6">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <!-- Main Info -->
+                    <div class="flex items-start space-x-4">
+                        <!-- Doctor Photo -->
+                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dr. Robert Kim" class="w-16 h-16 rounded-full object-cover opacity-60" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        
+                        <!-- Appointment Details -->
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="text-lg font-semibold text-text-primary opacity-60">Dr. Robert Kim</h3>
+                                <span class="px-2 py-1 bg-error-100 text-error text-xs rounded-full font-medium">Cancelled</span>
+                            </div>
+                            
+                            <div class="space-y-2 opacity-60">
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-bone w-4 mr-2"></i>
+                                    <span>Orthopedic Consultation</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-calendar w-4 mr-2"></i>
+                                    <span>August 15, 2025 at 4:00 PM</span>
+                                </div>
+                                
+                                <div class="flex items-center text-text-secondary text-sm">
+                                    <i class="fas fa-map-marker-alt w-4 mr-2"></i>
+                                    <span>Orthopedic Center, Room 301</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Cancellation Reason -->
+                            <div class="mt-3 p-3 bg-error-50 rounded-medical">
+                                <h4 class="text-sm font-medium text-text-primary mb-1">Cancellation Reason:</h4>
+                                <p class="text-sm text-text-secondary">Doctor unavailable due to emergency surgery. Cancelled on August 14, 2025.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-2 lg:w-48">
+                        <button class="btn-primary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-redo"></i>
+                            <span>Reschedule</span>
+                        </button>
+                        <button class="btn-secondary text-sm flex items-center justify-center space-x-2">
+                            <i class="fas fa-search"></i>
+                            <span>Find Alternative</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-12 hidden">
+            <div class="w-24 h-24 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-calendar-times text-secondary-400 text-3xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-text-primary mb-2">No appointments found</h3>
+            <p class="text-text-secondary mb-6">You don't have any appointments in this category yet.</p>
+            <button class="btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Book Your First Appointment
+            </button>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-secondary-200 z-50">
+        <div class="flex">
+            <a href="patient_dashboard.html" class="flex-1 flex flex-col items-center py-2 px-1 text-secondary-400 hover:text-primary transition-medical">
+                <i class="fas fa-home text-lg mb-1"></i>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            <a href="ai_symptom_analysis.html" class="flex-1 flex flex-col items-center py-2 px-1 text-secondary-400 hover:text-primary transition-medical">
+                <i class="fas fa-search text-lg mb-1"></i>
+                <span class="text-xs">Symptoms</span>
+            </a>
+            <a href="doctor_discovery_search.html" class="flex-1 flex flex-col items-center py-2 px-1 text-secondary-400 hover:text-primary transition-medical">
+                <i class="fas fa-user-md text-lg mb-1"></i>
+                <span class="text-xs">Doctors</span>
+            </a>
+            <a href="appointment_management.html" class="flex-1 flex flex-col items-center py-2 px-1 text-primary">
+                <i class="fas fa-calendar text-lg mb-1"></i>
+                <span class="text-xs">Appointments</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Reschedule Modal -->
+    <div id="rescheduleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-modal">
+        <div class="medical-card max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary">Reschedule Appointment</h3>
+                <button id="closeRescheduleModal" class="text-secondary-400 hover:text-secondary-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Select New Date</label>
+                    <input type="date" class="form-input w-full focus-medical" min="2025-08-19" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Available Time Slots</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button class="btn-secondary text-sm">9:00 AM</button>
+                        <button class="btn-secondary text-sm">10:30 AM</button>
+                        <button class="btn-secondary text-sm">2:00 PM</button>
+                        <button class="btn-secondary text-sm">3:30 PM</button>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button class="btn-primary flex-1">Confirm Reschedule</button>
+                    <button id="cancelReschedule" class="btn-secondary flex-1">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Appointment Modal -->
+    <div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-modal">
+        <div class="medical-card max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary">Cancel Appointment</h3>
+                <button id="closeCancelModal" class="text-secondary-400 hover:text-secondary-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <p class="text-text-secondary">Are you sure you want to cancel this appointment? This action cannot be undone.</p>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-primary mb-2">Reason for Cancellation</label>
+                    <select class="form-input w-full focus-medical">
+                        <option>Select a reason</option>
+                        <option>Schedule conflict</option>
+                        <option>Feeling better</option>
+                        <option>Doctor unavailable</option>
+                        <option>Emergency</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button class="btn-primary bg-error hover:bg-red-700 flex-1">Cancel Appointment</button>
+                    <button id="keepAppointment" class="btn-secondary flex-1">Keep Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="floating-action">
+        <i class="fas fa-plus text-xl"></i>
+    </button>
+
+    <script>
+        // Tab switching functionality
+        const tabs = {
+            upcoming: document.getElementById('upcomingTab'),
+            past: document.getElementById('pastTab'),
+            cancelled: document.getElementById('cancelledTab')
+        };
+
+        const contents = {
+            upcoming: document.getElementById('upcomingContent'),
+            past: document.getElementById('pastContent'),
+            cancelled: document.getElementById('cancelledContent')
+        };
+
+        function switchTab(activeTab) {
+            // Reset all tabs
+            Object.values(tabs).forEach(tab => {
+                tab.classList.remove('border-primary', 'text-primary');
+                tab.classList.add('border-transparent', 'text-text-secondary');
+            });
+
+            // Reset all contents
+            Object.values(contents).forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Activate selected tab
+            tabs[activeTab].classList.add('border-primary', 'text-primary');
+            tabs[activeTab].classList.remove('border-transparent', 'text-text-secondary');
+            contents[activeTab].classList.remove('hidden');
+        }
+
+        // Tab event listeners
+        tabs.upcoming.addEventListener('click', () => switchTab('upcoming'));
+        tabs.past.addEventListener('click', () => switchTab('past'));
+        tabs.cancelled.addEventListener('click', () => switchTab('cancelled'));
+
+        // Profile dropdown functionality
+        const profileDropdown = document.getElementById('profileDropdown');
+        const profileMenu = document.getElementById('profileMenu');
+
+        profileDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            profileMenu.classList.add('hidden');
+        });
+
+        // Modal functionality
+        const rescheduleModal = document.getElementById('rescheduleModal');
+        const cancelModal = document.getElementById('cancelModal');
+
+        // Reschedule modal
+        document.querySelectorAll('button:contains("Reschedule")').forEach(button => {
+            if (button.textContent.includes('Reschedule')) {
+                button.addEventListener('click', () => {
+                    rescheduleModal.classList.remove('hidden');
+                });
+            }
+        });
+
+        document.getElementById('closeRescheduleModal').addEventListener('click', () => {
+            rescheduleModal.classList.add('hidden');
+        });
+
+        document.getElementById('cancelReschedule').addEventListener('click', () => {
+            rescheduleModal.classList.add('hidden');
+        });
+
+        // Cancel modal
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.includes('Cancel') && button.classList.contains('text-error')) {
+                button.addEventListener('click', () => {
+                    cancelModal.classList.remove('hidden');
+                });
+            }
+        });
+
+        document.getElementById('closeCancelModal').addEventListener('click', () => {
+            cancelModal.classList.add('hidden');
+        });
+
+        document.getElementById('keepAppointment').addEventListener('click', () => {
+            cancelModal.classList.add('hidden');
+        });
+
+        // Time slot selection
+        document.querySelectorAll('#rescheduleModal button.btn-secondary').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove selection from other buttons
+                document.querySelectorAll('#rescheduleModal button.btn-secondary').forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('bg-secondary-100', 'text-secondary-600');
+                });
+                
+                // Add selection to clicked button
+                button.classList.add('bg-primary', 'text-white');
+                button.classList.remove('bg-secondary-100', 'text-secondary-600');
+            });
+        });
+
+        // Countdown timer for next appointment
+        function updateCountdown() {
+            const now = new Date();
+            const appointmentTime = new Date('2025-08-18T14:30:00');
+            const timeDiff = appointmentTime - now;
+
+            if (timeDiff > 0) {
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                
+                const countdownElements = document.querySelectorAll('.countdown');
+                countdownElements.forEach(element => {
+                    element.textContent = `In ${hours}h ${minutes}m`;
+                });
+            }
+        }
+
+        // Update countdown every minute
+        setInterval(updateCountdown, 60000);
+        updateCountdown();
+
+        // Search functionality
+        const searchInput = document.querySelector('input[placeholder*="Search appointments"]');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const appointmentCards = document.querySelectorAll('.appointment-card');
+            
+            appointmentCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Floating action button
+        document.querySelector('.floating-action').addEventListener('click', () => {
+            window.location.href = 'doctor_discovery_search.html';
+        });
+
+        // Swipe gestures for mobile (simplified)
+        let startX = 0;
+        let startY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            if (!startX || !startY) return;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            // Check if it's a horizontal swipe
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                const card = e.target.closest('.appointment-card');
+                if (card) {
+                    if (diffX > 0) {
+                        // Swipe left - show cancel option
+                        console.log('Swipe left detected - show cancel');
+                    } else {
+                        // Swipe right - show reschedule option
+                        console.log('Swipe right detected - show reschedule');
+                    }
+                }
+            }
+
+            startX = 0;
+            startY = 0;
+        });
+
+        // Add to calendar functionality
+        document.querySelectorAll('button:contains("Add to Calendar")').forEach(button => {
+            if (button.textContent.includes('Add to Calendar')) {
+                button.addEventListener('click', () => {
+                    // Create calendar event URL (Google Calendar example)
+                    const title = encodeURIComponent('Medical Appointment');
+                    const details = encodeURIComponent('Appointment with doctor');
+                    const startDate = '20250818T143000Z';
+                    const endDate = '20250818T150000Z';
+                    
+                    const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDate}/${endDate}&details=${details}`;
+                    window.open(calendarUrl, '_blank');
+                });
+            }
+        });
+
+        // Get directions functionality
+        document.querySelectorAll('button:contains("Get Directions")').forEach(button => {
+            if (button.textContent.includes('Get Directions')) {
+                button.addEventListener('click', () => {
+                    const destination = encodeURIComponent('St. Mary\'s Hospital, Room 205');
+                    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+                    window.open(mapsUrl, '_blank');
+                });
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

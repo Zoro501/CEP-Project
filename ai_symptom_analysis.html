@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Symptom Analysis - CurASync</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fcurasync9054back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-medical-sm border-b border-secondary-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Mobile Back Button & Logo -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="history.back()" class="lg:hidden p-2 rounded-medical-sm hover:bg-secondary-100 transition-medical">
+                        <i class="fas fa-arrow-left text-secondary-600"></i>
+                    </button>
+                    <a href="patient_dashboard.html" class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-semibold text-text-primary hidden sm:block">CurASync</span>
+                    </a>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="hidden sm:flex items-center space-x-2">
+                    <div class="flex items-center space-x-1">
+                        <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        <div class="w-8 h-1 bg-primary rounded-full"></div>
+                        <div class="w-2 h-2 bg-secondary-300 rounded-full"></div>
+                        <div class="w-8 h-1 bg-secondary-300 rounded-full"></div>
+                        <div class="w-2 h-2 bg-secondary-300 rounded-full"></div>
+                    </div>
+                    <span class="text-sm text-text-secondary ml-2">Step 1 of 3</span>
+                </div>
+
+                <!-- Help & Navigation -->
+                <div class="flex items-center space-x-3">
+                    <button class="p-2 rounded-medical-sm hover:bg-secondary-100 transition-medical tooltip" data-tooltip="Get Help">
+                        <i class="fas fa-question-circle text-secondary-600"></i>
+                    </button>
+                    <div class="hidden lg:flex items-center space-x-4">
+                        <a href="patient_dashboard.html" class="text-text-secondary hover:text-primary transition-medical">Dashboard</a>
+                        <a href="doctor_discovery_search.html" class="text-text-secondary hover:text-primary transition-medical">Find Doctors</a>
+                        <a href="appointment_management.html" class="text-text-secondary hover:text-primary transition-medical">Appointments</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <!-- Page Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-semibold text-text-primary mb-2">AI Symptom Analysis</h1>
+                <p class="text-text-secondary max-w-2xl mx-auto">Describe your symptoms and let our AI help identify the right medical specialty for your needs</p>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+                <!-- Left Panel - Input Section -->
+                <div class="space-y-6">
+                    <!-- Chat Interface -->
+                    <div class="medical-card p-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-robot text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-text-primary">AI Health Assistant</h3>
+                                <p class="text-sm text-text-secondary">I'm here to help analyze your symptoms</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div id="chatMessages" class="space-y-4 mb-6 max-h-64 overflow-y-auto">
+                            <!-- AI Welcome Message -->
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-robot text-primary text-sm"></i>
+                                </div>
+                                <div class="bg-primary-50 rounded-medical p-4 max-w-xs">
+                                    <p class="text-sm text-text-primary">Hello! I'm your AI health assistant. Please describe your symptoms in detail, and I'll help identify the right medical specialty for you.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <textarea id="symptomInput" rows="4" class="form-input w-full resize-none focus-medical" placeholder="Describe your symptoms in your own words... (e.g., I've been having a persistent headache for 3 days with nausea)"></textarea>
+                                <button id="voiceButton" class="absolute bottom-3 right-3 p-2 text-secondary-400 hover:text-primary transition-medical">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+
+                            <!-- Smart Suggestions -->
+                            <div id="suggestions" class="flex flex-wrap gap-2">
+                                <button class="suggestion-chip px-3 py-1 bg-secondary-100 text-secondary-600 rounded-full text-sm hover:bg-primary-100 hover:text-primary transition-medical">
+                                    Headache with fever
+                                </button>
+                                <button class="suggestion-chip px-3 py-1 bg-secondary-100 text-secondary-600 rounded-full text-sm hover:bg-primary-100 hover:text-primary transition-medical">
+                                    Chest pain
+                                </button>
+                                <button class="suggestion-chip px-3 py-1 bg-secondary-100 text-secondary-600 rounded-full text-sm hover:bg-primary-100 hover:text-primary transition-medical">
+                                    Stomach ache
+                                </button>
+                                <button class="suggestion-chip px-3 py-1 bg-secondary-100 text-secondary-600 rounded-full text-sm hover:bg-primary-100 hover:text-primary transition-medical">
+                                    Joint pain
+                                </button>
+                            </div>
+
+                            <!-- Send Button -->
+                            <button id="sendButton" class="btn-primary w-full transition-medical hover-lift">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Analyze Symptoms
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Severity Rating -->
+                    <div class="medical-card p-6">
+                        <h3 class="font-semibold text-text-primary mb-4">How severe are your symptoms?</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-text-secondary">Mild</span>
+                                <span class="text-sm text-text-secondary">Severe</span>
+                            </div>
+                            <div class="relative">
+                                <input type="range" id="severitySlider" min="1" max="10" value="5" class="w-full h-2 bg-secondary-200 rounded-lg appearance-none cursor-pointer slider" />
+                                <div class="flex justify-between text-xs text-text-secondary mt-2">
+                                    <span>😊</span>
+                                    <span>😐</span>
+                                    <span>😟</span>
+                                    <span>😰</span>
+                                    <span>😫</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <span id="severityValue" class="text-lg font-semibold text-primary">5/10</span>
+                                <p class="text-sm text-text-secondary">Moderate discomfort</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duration & Additional Info -->
+                    <div class="medical-card p-6">
+                        <h3 class="font-semibold text-text-primary mb-4">Additional Information</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Duration</label>
+                                <select class="form-input w-full focus-medical">
+                                    <option value>Select duration</option>
+                                    <option value="hours">Few hours</option>
+                                    <option value="1-2days">1-2 days</option>
+                                    <option value="3-7days">3-7 days</option>
+                                    <option value="1-2weeks">1-2 weeks</option>
+                                    <option value="months">Several months</option>
+                                    <option value="chronic">Chronic condition</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-text-primary mb-2">Age Group</label>
+                                <select class="form-input w-full focus-medical">
+                                    <option value>Select age group</option>
+                                    <option value="child">Child (0-12)</option>
+                                    <option value="teen">Teen (13-17)</option>
+                                    <option value="adult">Adult (18-64)</option>
+                                    <option value="senior">Senior (65+)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Body Diagram & Results -->
+                <div class="mt-8 lg:mt-0 space-y-6">
+                    <!-- Body Diagram -->
+                    <div class="medical-card p-6">
+                        <h3 class="font-semibold text-text-primary mb-4">Where do you feel the symptoms?</h3>
+                        <div class="relative bg-secondary-50 rounded-medical p-4">
+                            <!-- Interactive Body Diagram -->
+                            <div class="relative mx-auto w-48 h-80 bg-white rounded-medical shadow-medical-sm">
+                                <svg viewBox="0 0 200 320" class="w-full h-full">
+                                    <!-- Body outline -->
+                                    <path d="M100 20 C85 20 75 30 75 45 L75 60 C70 65 65 70 65 80 L65 120 C65 125 70 130 75 130 L75 200 C75 210 70 220 65 230 L65 280 C65 290 70 300 80 300 L120 300 C130 300 135 290 135 280 L135 230 C130 220 125 210 125 200 L125 130 C130 130 135 125 135 120 L135 80 C135 70 130 65 125 60 L125 45 C125 30 115 20 100 20 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="torso"/>
+                                    
+                                    <!-- Head -->
+                                    <circle cx="100" cy="35" r="25" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="head"/>
+                                    
+                                    <!-- Arms -->
+                                    <rect x="45" y="70" width="15" height="60" rx="7" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="left-arm"/>
+                                    <rect x="140" y="70" width="15" height="60" rx="7" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="right-arm"/>
+                                    
+                                    <!-- Legs -->
+                                    <rect x="85" y="200" width="12" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="left-leg"/>
+                                    <rect x="103" y="200" width="12" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" class="body-part cursor-pointer hover:fill-primary-100 transition-medical" data-part="right-leg"/>
+                                </svg>
+                            </div>
+                            <p class="text-center text-sm text-text-secondary mt-3">Tap on body parts to select affected areas</p>
+                            
+                            <!-- Selected Areas -->
+                            <div id="selectedAreas" class="mt-4 flex flex-wrap gap-2">
+                                <!-- Selected body parts will appear here as chips -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Analysis Results -->
+                    <div id="analysisResults" class="medical-card p-6 hidden">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-8 h-8 bg-accent-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-brain text-accent"></i>
+                            </div>
+                            <h3 class="font-semibold text-text-primary">AI Analysis Results</h3>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="space-y-4">
+                            <div class="border border-primary-200 rounded-medical p-4 bg-primary-50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="font-medium text-text-primary">Primary Care Physician</h4>
+                                    <span class="text-sm font-medium text-primary bg-primary-100 px-2 py-1 rounded-full">92% Match</span>
+                                </div>
+                                <p class="text-sm text-text-secondary mb-3">Based on your symptoms, a general practitioner can provide initial assessment and treatment recommendations.</p>
+                                <div class="flex items-center space-x-4 text-xs text-text-secondary">
+                                    <span class="flex items-center"><i class="fas fa-clock mr-1 text-accent"></i>Routine</span>
+                                    <span class="flex items-center"><i class="fas fa-map-marker-alt mr-1 text-accent"></i>5 nearby</span>
+                                </div>
+                            </div>
+
+                            <div class="border border-secondary-200 rounded-medical p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="font-medium text-text-primary">Neurologist</h4>
+                                    <span class="text-sm font-medium text-warning bg-warning-100 px-2 py-1 rounded-full">78% Match</span>
+                                </div>
+                                <p class="text-sm text-text-secondary mb-3">For persistent headaches with neurological symptoms, a specialist consultation may be beneficial.</p>
+                                <div class="flex items-center space-x-4 text-xs text-text-secondary">
+                                    <span class="flex items-center"><i class="fas fa-clock mr-1 text-warning"></i>Within 1 week</span>
+                                    <span class="flex items-center"><i class="fas fa-map-marker-alt mr-1 text-warning"></i>3 nearby</span>
+                                </div>
+                            </div>
+
+                            <div class="border border-secondary-200 rounded-medical p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="font-medium text-text-primary">Emergency Care</h4>
+                                    <span class="text-sm font-medium text-error bg-error-100 px-2 py-1 rounded-full">15% Match</span>
+                                </div>
+                                <p class="text-sm text-text-secondary mb-3">Seek immediate care if symptoms worsen or include severe pain, vision changes, or confusion.</p>
+                                <div class="flex items-center space-x-4 text-xs text-text-secondary">
+                                    <span class="flex items-center"><i class="fas fa-exclamation-triangle mr-1 text-error"></i>If severe</span>
+                                    <span class="flex items-center"><i class="fas fa-map-marker-alt mr-1 text-error"></i>2 nearby</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                            <a href="doctor_discovery_search.html" class="btn-primary flex-1 text-center transition-medical hover-lift">
+                                <i class="fas fa-search mr-2"></i>
+                                Find Doctors
+                            </a>
+                            <button id="exportButton" class="btn-secondary flex-1 transition-medical hover-lift">
+                                <i class="fas fa-download mr-2"></i>
+                                Export Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Progress Indicator -->
+                    <div class="medical-card p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-text-primary">Assessment Progress</span>
+                            <span id="progressPercent" class="text-sm text-primary">25%</span>
+                        </div>
+                        <div class="w-full bg-secondary-200 rounded-full h-2">
+                            <div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 25%"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary mt-2">Complete all sections for the most accurate analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-secondary-200 px-4 py-2">
+        <div class="flex justify-around">
+            <a href="patient_dashboard.html" class="flex flex-col items-center py-2 text-secondary-600">
+                <i class="fas fa-home text-lg"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="ai_symptom_analysis.html" class="flex flex-col items-center py-2 text-primary">
+                <i class="fas fa-brain text-lg"></i>
+                <span class="text-xs mt-1">Analysis</span>
+            </a>
+            <a href="doctor_discovery_search.html" class="flex flex-col items-center py-2 text-secondary-600">
+                <i class="fas fa-user-md text-lg"></i>
+                <span class="text-xs mt-1">Doctors</span>
+            </a>
+            <a href="appointment_management.html" class="flex flex-col items-center py-2 text-secondary-600">
+                <i class="fas fa-calendar text-lg"></i>
+                <span class="text-xs mt-1">Appointments</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Floating Help Button -->
+    <button class="floating-action lg:hidden" onclick="showHelp()">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-modal">
+        <div class="medical-card max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-text-primary">How to Use AI Analysis</h3>
+                <button onclick="closeHelp()" class="text-secondary-400 hover:text-secondary-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-sm text-text-secondary">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-edit text-primary mt-1"></i>
+                    <div>
+                        <p class="font-medium text-text-primary">Describe Symptoms</p>
+                        <p>Write your symptoms in natural language. Be as detailed as possible.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-body text-primary mt-1"></i>
+                    <div>
+                        <p class="font-medium text-text-primary">Select Body Areas</p>
+                        <p>Tap on the body diagram to indicate where you feel symptoms.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-sliders-h text-primary mt-1"></i>
+                    <div>
+                        <p class="font-medium text-text-primary">Rate Severity</p>
+                        <p>Use the slider to indicate how severe your symptoms are.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-brain text-primary mt-1"></i>
+                    <div>
+                        <p class="font-medium text-text-primary">Get Recommendations</p>
+                        <p>Our AI will suggest the most appropriate medical specialties.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const symptomInput = document.getElementById('symptomInput');
+        const sendButton = document.getElementById('sendButton');
+        const analysisResults = document.getElementById('analysisResults');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+
+        let currentProgress = 25;
+        let analysisStep = 0;
+
+        // Severity slider
+        const severitySlider = document.getElementById('severitySlider');
+        const severityValue = document.getElementById('severityValue');
+
+        severitySlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            severityValue.textContent = `${value}/10`;
+            
+            const descriptions = {
+                1: 'Very mild', 2: 'Very mild', 3: 'Mild', 4: 'Mild',
+                5: 'Moderate', 6: 'Moderate', 7: 'Significant', 8: 'Significant',
+                9: 'Severe', 10: 'Very severe'
+            };
+            
+            severityValue.nextElementSibling.textContent = descriptions[value] + ' discomfort';
+            updateProgress();
+        });
+
+        // Body diagram interaction
+        const bodyParts = document.querySelectorAll('.body-part');
+        const selectedAreas = document.getElementById('selectedAreas');
+        let selectedBodyParts = [];
+
+        bodyParts.forEach(part => {
+            part.addEventListener('click', (e) => {
+                const partName = e.target.dataset.part;
+                const partLabel = partName.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                
+                if (selectedBodyParts.includes(partName)) {
+                    // Remove selection
+                    selectedBodyParts = selectedBodyParts.filter(p => p !== partName);
+                    e.target.style.fill = '#f1f5f9';
+                    
+                    // Remove chip
+                    const chip = selectedAreas.querySelector(`[data-part="${partName}"]`);
+                    if (chip) chip.remove();
+                } else {
+                    // Add selection
+                    selectedBodyParts.push(partName);
+                    e.target.style.fill = '#dbeafe';
+                    
+                    // Add chip
+                    const chip = document.createElement('span');
+                    chip.className = 'px-3 py-1 bg-primary-100 text-primary rounded-full text-sm';
+                    chip.dataset.part = partName;
+                    chip.innerHTML = `${partLabel} <button onclick="removeBodyPart('${partName}')" class="ml-1 text-primary-600 hover:text-primary-800"><i class="fas fa-times text-xs"></i></button>`;
+                    selectedAreas.appendChild(chip);
+                }
+                updateProgress();
+            });
+        });
+
+        // Remove body part selection
+        function removeBodyPart(partName) {
+            selectedBodyParts = selectedBodyParts.filter(p => p !== partName);
+            const bodyPart = document.querySelector(`[data-part="${partName}"]`);
+            if (bodyPart) bodyPart.style.fill = '#f1f5f9';
+            
+            const chip = selectedAreas.querySelector(`[data-part="${partName}"]`);
+            if (chip) chip.remove();
+            updateProgress();
+        }
+
+        // Suggestion chips
+        const suggestionChips = document.querySelectorAll('.suggestion-chip');
+        suggestionChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                symptomInput.value = e.target.textContent;
+                symptomInput.focus();
+            });
+        });
+
+        // Voice input (mock functionality)
+        const voiceButton = document.getElementById('voiceButton');
+        voiceButton.addEventListener('click', () => {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onstart = () => {
+                    voiceButton.innerHTML = '<i class="fas fa-microphone-slash text-error"></i>';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    symptomInput.value = transcript;
+                    voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                };
+
+                recognition.onerror = () => {
+                    voiceButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                    alert('Voice recognition not supported or error occurred');
+                };
+
+                recognition.start();
+            } else {
+                alert('Voice recognition not supported in this browser');
+            }
+        });
+
+        // Send button functionality
+        sendButton.addEventListener('click', () => {
+            const symptoms = symptomInput.value.trim();
+            if (!symptoms) {
+                alert('Please describe your symptoms first');
+                return;
+            }
+
+            // Add user message to chat
+            addChatMessage(symptoms, 'user');
+            
+            // Clear input
+            symptomInput.value = '';
+            
+            // Show loading
+            sendButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Analyzing...';
+            sendButton.disabled = true;
+
+            // Simulate AI response
+            setTimeout(() => {
+                processSymptoms(symptoms);
+                sendButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Analyze Symptoms';
+                sendButton.disabled = false;
+            }, 2000);
+        });
+
+        // Add chat message
+        function addChatMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start space-x-3 ${sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`;
+            
+            const avatar = sender === 'user' 
+                ? '<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-white text-sm"></i></div>'
+                : '<div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-robot text-primary text-sm"></i></div>';
+            
+            const bgClass = sender === 'user' ? 'bg-primary text-white' : 'bg-secondary-100 text-text-primary';
+            
+            messageDiv.innerHTML = `
+                ${avatar}
+                <div class="${bgClass} rounded-medical p-4 max-w-xs">
+                    <p class="text-sm">${message}</p>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Process symptoms with AI
+        function processSymptoms(symptoms) {
+            const responses = [
+                "Thank you for describing your symptoms. Can you tell me how long you've been experiencing these symptoms?",
+                "I understand you're experiencing discomfort. Have you noticed any triggers that make the symptoms worse?",
+                "Based on your description, I'd like to ask a few more questions to provide better recommendations.",
+                "That's helpful information. Are there any other symptoms you've noticed recently?"
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addChatMessage(randomResponse, 'ai');
+            
+            // Update progress and show results after a few interactions
+            analysisStep++;
+            if (analysisStep >= 2) {
+                setTimeout(() => {
+                    showAnalysisResults();
+                }, 1000);
+            }
+        }
+
+        // Show analysis results
+        function showAnalysisResults() {
+            analysisResults.classList.remove('hidden');
+            analysisResults.scrollIntoView({ behavior: 'smooth' });
+            updateProgress(100);
+            
+            addChatMessage("Based on your symptoms and the information provided, I've generated personalized recommendations below. You can now search for doctors or export this analysis.", 'ai');
+        }
+
+        // Update progress
+        function updateProgress(newProgress) {
+            if (newProgress) {
+                currentProgress = newProgress;
+            } else {
+                // Calculate progress based on completed sections
+                let progress = 25; // Base progress
+                if (symptomInput.value.trim()) progress += 25;
+                if (selectedBodyParts.length > 0) progress += 25;
+                if (severitySlider.value != 5) progress += 25;
+                currentProgress = progress;
+            }
+            
+            progressBar.style.width = currentProgress + '%';
+            progressPercent.textContent = currentProgress + '%';
+        }
+
+        // Export functionality
+        document.getElementById('exportButton')?.addEventListener('click', () => {
+            // Mock export functionality
+            const analysisData = {
+                symptoms: symptomInput.value || 'Headache with nausea',
+                severity: severitySlider.value,
+                bodyParts: selectedBodyParts,
+                recommendations: ['Primary Care Physician', 'Neurologist'],
+                date: new Date().toLocaleDateString()
+            };
+            
+            // Create downloadable content
+            const content = `
+CurASync - AI Symptom Analysis Report
+Date: ${analysisData.date}
+
+Symptoms: ${analysisData.symptoms}
+Severity: ${analysisData.severity}/10
+Affected Areas: ${selectedBodyParts.join(', ') || 'Not specified'}
+
+Recommendations:
+- Primary Care Physician (92% match)
+- Neurologist (78% match)
+
+This analysis is for informational purposes only and should not replace professional medical advice.
+            `;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'symptom-analysis-report.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+
+        // Help modal functions
+        function showHelp() {
+            document.getElementById('helpModal').classList.remove('hidden');
+        }
+
+        function closeHelp() {
+            document.getElementById('helpModal').classList.add('hidden');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auto-focus on symptom input
+            symptomInput.focus();
+            
+            // Initialize progress
+            updateProgress();
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

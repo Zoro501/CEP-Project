@@ -1,0 +1,394 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CurASync - AI-Based Symptom Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #facc15;
+            --danger: #f87171;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(67, 97, 238, 0.9), rgba(63, 55, 201, 0.9)), url('https://placehold.co/1200x600/4361ee/ffffff?text=Healthcare+Innovation') center/cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .symptom-checker {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .doctor-card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .availability-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .stats-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        footer {
+            background: linear-gradient(90deg, var(--dark), #343a40);
+            color: white;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">
+                <i class="fas fa-heartbeat me-2"></i>CurASync
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#symptom-checker">Symptom Checker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#doctors">Doctors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-4">AI-Powered Healthcare Made Simple</h1>
+            <p class="lead fs-4 mb-5">Get instant symptom analysis, find nearby specialists, and book appointments seamlessly</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-stethoscope me-2"></i>Check Symptoms
+                </button>
+                <button class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-calendar-check me-2"></i>Book Appointment
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Our Features</h2>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-primary">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4 class="card-title">AI Symptom Analysis</h4>
+                            <p class="card-text">Advanced NLP algorithms analyze your symptoms and recommend the right specialist for your condition.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-success">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h4 class="card-title">Location-Based Search</h4>
+                            <p class="card-text">Find the nearest hospitals and doctors based on your current location with real-time navigation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-info">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <h4 class="card-title">Smart Booking</h4>
+                            <p class="card-text">Book appointments with available doctors, view schedules, and receive instant confirmations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Symptom Checker Section -->
+    <section id="symptom-checker" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Symptom Checker</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="symptom-checker">
+                        <h4 class="mb-4">Describe Your Symptoms</h4>
+                        <form>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" placeholder="E.g., I've been having headaches and fever for the past 3 days..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Location">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Analyze Symptoms
+                            </button>
+                        </form>
+                        <div class="mt-4 p-3 bg-info bg-opacity-10 rounded">
+                            <h6><i class="fas fa-lightbulb me-2"></i>Recommended Specialist:</h6>
+                            <p class="mb-0">Based on your symptoms, you should consult a <strong>General Physician</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section id="doctors" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Available Doctors</h2>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="card doctor-card position-relative">
+                        <img src="https://placehold.co/300x200/4361ee/ffffff?text=Dr.Abhinav Mulay" class="card-img-top" alt="Doctor">
+                        <div class="availability-badge bg-success">Available</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Dr.Abhinav Mulay</h5>
+                            <p class="card-text text-muted">Surgeon</p>
+                            <p class="card-text"><i class="fas fa-hospital me-2"></i>Mulay Multispecialist Hospital</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>2.5 km away</p>
+                            <button class="btn btn-primary w-100">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card doctor-card position-relative">
+                        <img src="https://placehold.co/300x200/3f37c9/ffffff?text=Dr.Priyanka Kothari" class="card-img-top" alt="Doctor">
+                        <div class="availability-badge bg-warning">Busy</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Dr.Priyanka Kothari</h5>
+                            <p class="card-text text-muted">Dentist</p>
+                            <p class="card-text"><i class="fas fa-hospital me-2"></i>Kothari Dental Clinic</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>1.8 km away</p>
+                            <button class="btn btn-outline-primary w-100">View Schedule</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card doctor-card position-relative">
+                        <img src="https://placehold.co/300x200/4cc9f0/ffffff?text=Dr.M.S.Jorwekar" class="card-img-top" alt="Doctor">
+                        <div class="availability-badge bg-success">Available</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Dr.M.S.Jorwekar</h5>
+                            <p class="card-text text-muted">Pediatrician</p>
+                            <p class="card-text"><i class="fas fa-hospital me-2"></i>Children's Hospital</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>3.0 km away</p>
+                            <button class="btn btn-primary w-100">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Get In Touch</h2>
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" placeholder="Your Name">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="email" class="form-control" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Subject">
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h4 class="mb-4">
+                        <i class="fas fa-heartbeat me-2"></i>CurASync
+                    </h4>
+                    <p>Revolutionizing healthcare access through AI-powered symptom analysis and smart appointment booking.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="#features" class="text-white text-decoration-none">Features</a></li>
+                        <li class="mb-2"><a href="#symptom-checker" class="text-white text-decoration-none">Symptom Checker</a></li>
+                        <li class="mb-2"><a href="#doctors" class="text-white text-decoration-none">Doctors</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>123 Healthcare Ave, Medical City</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@curasync.com</li>
+                        <li class="mb-2"><i class="fas fa-clock me-2"></i>24/7 Support Available</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 CurASync. All rights reserved. | Designed with <i class="fas fa-heart text-danger"></i> for better healthcare</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple animation for feature cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
+```
